@@ -2,7 +2,6 @@ import socket
 import os
 import requests
 import pickle
-# from utils as util
 from utils import UDP_MAX_SIZE, encapsulate_message, decapsulate_message
 
 def receive(host: str = '127.0.0.1', port: int = 3000):

@@ -15,6 +15,7 @@ cd app/sockets
 python3 server.py
 ```
 
+
 ## Execute 'app.py' with 'register' or 'login' parameter
 For register
 ```

@@ -56,7 +56,6 @@ def encapsulate_message(message):
 
 def decapsulate_message(packet):
     checksm, message = int(packet[:CHECKSUM].strip()), packet[CHECKSUM:]
-    # print(checksm, message)
     verify = verify_checksum(message, checksm)
     if verify == 0xFFFF:
         return message

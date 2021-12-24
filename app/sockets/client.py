@@ -5,8 +5,9 @@ import pickle
 from .utils import UDP_MAX_SIZE, COMMANDS, HELP_TEXT, encapsulate_message, decapsulate_message
 
 members = {}
-
 def receive(s: socket.socket, host: str, port: int):
+    global flag
+    flag = False
     while True:
         msg, addr = s.recvfrom(UDP_MAX_SIZE)
         allowed_addrs = threading.current_thread().allowed_addrs
@@ -27,7 +28,6 @@ def receive(s: socket.socket, host: str, port: int):
                 for n, member in enumerate(content.split(';'), start=1):
                     nick, paddr = member.split(":")
                     paddr = tuple(eval(paddr))
-                    # print(nick, paddr)
                     members[nick] = paddr    
                     print('\r\r' + f'{n}) {nick}' + '\n' + 'you: ', end='')
         else:
@@ -36,7 +36,8 @@ def receive(s: socket.socket, host: str, port: int):
                 if msg.startswith('ALERT'):
                     print('\r\r' + f'{peer_name}: '+ msg + '\n', end='')
                     s.close()
-                    sys.exit(0)
+                    flag = True
+                    break
                 else:
                     print('\r\r' + msg + '\nyou: ', end='')
 
@@ -62,7 +63,7 @@ def connect(nickname, ip_address, own_port,  host: str = '127.0.0.1', port: int 
     message = encapsulate_message(f'__join:{nickname}')
     s.sendto(pickle.dumps(message), sendto)
     nick = 'Server'
-    while True:
+    while not flag:
         msg = input(f'\r\ryou: ')
 
         command = msg.split(' ')[0]
