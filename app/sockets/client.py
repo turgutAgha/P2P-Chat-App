@@ -2,8 +2,7 @@ import socket
 import threading
 import sys
 import pickle
-from utils import UDP_MAX_SIZE, COMMANDS, HELP_TEXT, encapsulate_message, decapsulate_message
-
+from .utils import UDP_MAX_SIZE, COMMANDS, HELP_TEXT, encapsulate_message, decapsulate_message
 
 members = {}
 
@@ -14,19 +13,9 @@ def receive(s: socket.socket, host: str, port: int):
         if addr not in allowed_addrs:
             continue
         
-        
         msg = decapsulate_message(pickle.loads(msg))
-        # print(msg)
         if not msg:
             continue
-
-        # packet = decapsulate_message(msg)
-
-        # if packet == "Checksum error!":
-        #     print(packet)
-        #     continue
-
-        # msg = packet['msg']
 
         if '__' in msg:
             command, content = msg.split('__')
@@ -63,7 +52,6 @@ def start_listen(target, socket, host, port):
 
 def connect(nickname, ip_address, own_port,  host: str = '127.0.0.1', port: int = 3000):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    # own_port = random.randint(12000, 13000)
     s.bind((ip_address, own_port))
     sendto = (host, port)
 
@@ -84,7 +72,6 @@ def connect(nickname, ip_address, own_port,  host: str = '127.0.0.1', port: int 
                 s.sendto(pickle.dumps(message), (host, port))
 
             elif msg == '/exit':
-                # peer_port = sendto[-1]
                 print(f'Disconnected from {allowed_addrs[sendto]}')
                 allowed_addrs.pop(sendto)
                 if sendto == (host, port):
@@ -97,9 +84,7 @@ def connect(nickname, ip_address, own_port,  host: str = '127.0.0.1', port: int 
 
             elif msg.startswith('/connect'):
                 nick = msg.split(' ')[-1]
-                # print(members, members[nick])
                 try:
-                    # peer_port = int(peer.replace('client', ''))
                     paddr = members[nick]
                     allowed_addrs[paddr] = nick
                     sendto = paddr

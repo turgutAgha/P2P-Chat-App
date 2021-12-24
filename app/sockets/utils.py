@@ -62,19 +62,3 @@ def decapsulate_message(packet):
         return message
     else:
         return ("Checksum error!")
-
-
-
-# def parse(msg):
-#     packet = {}
-#     packet['version'] = msg[: VERSION]
-#     packet['dst_ip'] = msg[VERSION : DST_IP]
-#     packet['src_ip'] = msg[DST_IP : SRC_IP]
-#     packet['dst_port'] = msg[SRC_IP : DST_PORT]
-#     packet['src_port'] = msg[DST_PORT : SRC_PORT]
-#     packet['msg'] = msg[SRC_PORT:]
-
-#     # for i in packet:
-#     #     print(i, ":", packet[i])
-
-#     return packet

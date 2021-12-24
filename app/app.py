@@ -1,12 +1,10 @@
 import random
 import requests
 import sys
-import client
+from sockets import client
 import os
 
-
 os.system('clear')
-
 
 if len(sys.argv) != 2 or (str(sys.argv[1]) != 'login' and str(sys.argv[1]) != 'register'):
     print ("Correct usage: script command")
